@@ -1,7 +1,11 @@
 == Ezgraphix Online Demo!
 
+online demo hosted with Heroku! 
+
+http://ezgraphixdemo.herokugarden.com/
+
 Ezgraphix is a rails plugin to generate flash based graphics for rails applications using a free and customizable chart's set, Ezgraphix repository can be found in GitHub, and Ezgraphix documentation can be found in RubyForge. Developed by jpemberthy and relased under MIT license.
 
 == Local Installation
 
-git clone the project, rake db:migrate (database.yml included and using sqlite3), start server,thats it.
+git clone the project, run migrations (assuming you have sqlite3), start server,thats it.
