@@ -12,18 +12,28 @@ module EzgraphixHelper
     end
     style
   end
-  
+
   #method used in ActionView::Base to render graphics.
   def render_ezgraphix(g)
     style = get_style(g)
-    xml_data = g.to_xml
-    h = Hpricot("<div id='#{g.div_name}'></div>\n <script type='text/javascript'> var ezChart = new FusionCharts('#{f_type(g.c_type)}', '#{g.div_name}', '#{g.w}', '#{g.h}','0','0'); ezChart.setDataXML('#{g.to_xml}'); ezChart.render('#{g.div_name}');</script>")
-    h.to_html
+    result = ""
+    html = Builder::XmlMarkup.new(:target => result)
+    html.div("test", :id => g.div_name)
+    html = Builder::XmlMarkup.new(:target => result)
+    html.script(:type => 'text/javascript') do
+      html << "var ezChart = new FusionCharts('#{f_type(g.c_type)}','#{g.div_name}','#{g.w}','#{g.h}','0','0');\n"
+      html << "ezChart.setDataXML(\"#{g.to_xml}\");\n" unless g.data.is_a?(String)
+      html << "ezChart.setDataURL(\"#{g.data}\");\n" if g.data.is_a?(String)
+      html << "ezChart.render(\"#{g.div_name}\");\n"
+    end
+    result
   end
-  
+
   def f_type(c_type)
     type = ''
     case c_type
+    when 'area2d'
+      type = '/FusionCharts/FCF_Area2D.swf'
     when 'col3d'
       type = '/FusionCharts/FCF_Column3D.swf'
     when 'bar2d'
@@ -40,14 +50,26 @@ module EzgraphixHelper
       type = '/FusionCharts/FCF_Line.swf'
     when 'doug2d'
       type = '/FusionCharts/FCF_Doughnut2D.swf'
+    when 'msline'
+      type = '/FusionCharts/FCF_MSLine.swf'
+    when 'mscol3d'
+      type = '/FusionCharts/FCF_MSColumn3D.swf'
+    when 'mscol2d'
+      type = '/FusionCharts/FCF_MSColumn2D.swf'
+    when 'msarea2d'
+      type = '/FusionCharts/FCF_MSArea2D.swf'
+    when 'msbar2d'
+      type = '/FusionCharts/FCF_MSBar2D.swf'
     end
   end
-      
+
   def parse_options(options)
     original_names = Hash.new
-    
+
     options.each{|k,v|
-      case k 
+      case k
+      when :animation
+        original_names['animation'] = v
       when :y_name
         original_names['yAxisName'] = v
       when :caption
@@ -67,7 +89,7 @@ module EzgraphixHelper
       when :f_number_scale
         original_names['formatNumberScale'] = v
       when :rotate
-        original_names['rotateNames']  = v  
+        original_names['rotateNames']  = v
       when :background
         original_names['bgColor'] = v
       when :line
@@ -92,8 +114,10 @@ module EzgraphixHelper
         original_names['SYAxisName'] = v
       when :x_name
         original_names['xAxisName'] = v
+      when :show_column_shadow
+        original_names['showColumnShadow'] = v
       end
       }
     original_names
-  end    
+  end
 end
