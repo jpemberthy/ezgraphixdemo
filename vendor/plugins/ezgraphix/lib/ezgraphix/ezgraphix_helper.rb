@@ -1,21 +1,6 @@
 module EzgraphixHelper
-  require 'hpricot'
-
-  def get_style(g)
-    case g.c_type
-    when 'col3d'
-      style = 'render_simple'
-    when 'bar2d'
-      style = 'render_simple'
-    when 'col2d'
-      style = 'render_simple'
-    end
-    style
-  end
-
   #method used in ActionView::Base to render graphics.
   def render_ezgraphix(g)
-    style = get_style(g)
     result = ""
     html = Builder::XmlMarkup.new(:target => result)
     html.div("test", :id => g.div_name)
@@ -30,36 +15,35 @@ module EzgraphixHelper
   end
 
   def f_type(c_type)
-    type = ''
     case c_type
     when 'area2d'
-      type = '/FusionCharts/FCF_Area2D.swf'
+      '/FusionCharts/FCF_Area2D.swf'
     when 'col3d'
-      type = '/FusionCharts/FCF_Column3D.swf'
+      '/FusionCharts/FCF_Column3D.swf'
     when 'bar2d'
-      type = '/FusionCharts/FCF_Bar2D.swf'
+      '/FusionCharts/FCF_Bar2D.swf'
     when 'barline3d'
-      type = '/FusionCharts/FCF_MSColumn3DLineDY.swf'
+      '/FusionCharts/FCF_MSColumn3DLineDY.swf'
     when 'col2d'
-      type = '/FusionCharts/FCF_Column2D.swf'
+      '/FusionCharts/FCF_Column2D.swf'
     when 'pie2d'
-      type = '/FusionCharts/FCF_Pie2D.swf'
+      '/FusionCharts/FCF_Pie2D.swf'
     when 'pie3d'
-      type = '/FusionCharts/FCF_Pie3D.swf'
+      '/FusionCharts/FCF_Pie3D.swf'
     when 'line'
-      type = '/FusionCharts/FCF_Line.swf'
+      '/FusionCharts/FCF_Line.swf'
     when 'doug2d'
-      type = '/FusionCharts/FCF_Doughnut2D.swf'
+      '/FusionCharts/FCF_Doughnut2D.swf'
     when 'msline'
-      type = '/FusionCharts/FCF_MSLine.swf'
+      '/FusionCharts/FCF_MSLine.swf'
     when 'mscol3d'
-      type = '/FusionCharts/FCF_MSColumn3D.swf'
+      '/FusionCharts/FCF_MSColumn3D.swf'
     when 'mscol2d'
-      type = '/FusionCharts/FCF_MSColumn2D.swf'
+      '/FusionCharts/FCF_MSColumn2D.swf'
     when 'msarea2d'
-      type = '/FusionCharts/FCF_MSArea2D.swf'
+      '/FusionCharts/FCF_MSArea2D.swf'
     when 'msbar2d'
-      type = '/FusionCharts/FCF_MSBar2D.swf'
+      '/FusionCharts/FCF_MSBar2D.swf'
     end
   end
 
